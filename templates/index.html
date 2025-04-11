@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSO-Neural Network Function Approximation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Function Approximation with PSO-Neural Network</h1>
+            <p>Enter a mathematical function and parameters to approximate it using a hybrid PSO-Neural Network approach</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="input-panel">
+                <form id="approximation-form">
+                    <div class="form-group">
+                        <label for="function">Mathematical Function:</label>
+                        <input type="text" id="function" name="function" value="sin(x)*x + x**2" required>
+                        <p class="help-text">Use 'x' as the variable. Supported operations: +, -, *, /, **, sin, cos, tan, exp, log, etc.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="x-range">X Range:</label>
+                        <div class="range-inputs">
+                            <div>
+                                <label for="x-min">Min:</label>
+                                <input type="number" id="x-min" name="x-min" value="-5" step="0.1">
+                            </div>
+                            <div>
+                                <label for="x-max">Max:</label>
+                                <input type="number" id="x-max" name="x-max" value="5" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="n-points">Number of Data Points:</label>
+                        <input type="range" id="n-points" name="n-points" min="10" max="500" value="100" step="10">
+                        <span id="n-points-value">100</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hidden-size">Neural Network Hidden Layer Size:</label>
+                        <input type="range" id="hidden-size" name="hidden-size" min="2" max="50" value="10" step="1">
+                        <span id="hidden-size-value">10</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h3>PSO Parameters</h3>
+                        <div class="pso-params">
+                            <div>
+                                <label for="n-particles">Particles:</label>
+                                <input type="range" id="n-particles" name="n-particles" min="10" max="100" value="30" step="5">
+                                <span id="n-particles-value">30</span>
+                            </div>
+                            <div>
+                                <label for="iterations">Iterations:</label>
+                                <input type="range" id="iterations" name="iterations" min="10" max="500" value="100" step="10">
+                                <span id="iterations-value">100</span>
+                            </div>
+                            <div>
+                                <label for="c1">Cognitive Coefficient (c1):</label>
+                                <input type="range" id="c1" name="c1" min="0.1" max="3" value="1.5" step="0.1">
+                                <span id="c1-value">1.5</span>
+                            </div>
+                            <div>
+                                <label for="c2">Social Coefficient (c2):</label>
+                                <input type="range" id="c2" name="c2" min="0.1" max="3" value="1.5" step="0.1">
+                                <span id="c2-value">1.5</span>
+                            </div>
+                            <div>
+                                <label for="w">Inertia Weight (w):</label>
+                                <input type="range" id="w" name="w" min="0.1" max="1" value="0.7" step="0.05">
+                                <span id="w-value">0.7</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="run-btn">Run Approximation</button>
+                        <div id="loading" style="display: none;">
+                            <div class="spinner"></div>
+                            <span>Processing...</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="results-panel">
+                <div id="plot-container"></div>
+                <div id="metrics" class="hidden">
+                    <h3>Performance Metrics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">Mean Squared Error:</span>
+                            <span id="mse-value" class="metric-value">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">R² Score:</span>
+                            <span id="r2-value" class="metric-value">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
