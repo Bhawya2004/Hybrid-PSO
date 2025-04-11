@@ -170,9 +170,8 @@ def approximate():
     
     return jsonify(result)
 
-# Add this at the end of your file, replacing the existing if __name__ == '__main__' block
 if __name__ == '__main__':
     app.run(debug=True)
 
-# Add this line for Vercel deployment
-app = app
+# Remove the redundant line below
+# app = app
