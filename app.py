@@ -172,6 +172,3 @@ def approximate():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-# Remove the redundant line below
-# app = app
