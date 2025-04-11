@@ -34,11 +34,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Initialize empty plot
-    Plotly.newPlot(plotContainer, [], {
-        title: 'Function Approximation',
-        xaxis: { title: 'x' },
-        yaxis: { title: 'y' },
-        margin: { t: 50, b: 50, l: 50, r: 50 }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Make sure this code runs after the DOM is fully loaded
+        const plotContainer = document.getElementById('plot-container');
+        if (plotContainer) {
+            Plotly.newPlot(plotContainer, [], {
+                title: 'Function Approximation',
+                xaxis: { title: 'x' },
+                yaxis: { title: 'y' },
+                margin: { t: 50, b: 50, l: 50, r: 50 }
+            });
+        } else {
+            console.error('Plot container not found');
+        }
     });
     
     // Form submission
