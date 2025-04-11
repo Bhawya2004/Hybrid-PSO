@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify, render_template
 import numpy as np
-from scipy.special import expit  # sigmoid function
+import math
 import json
-import numexpr as ne
 
 app = Flask(__name__)
+
+# Custom sigmoid function to replace scipy.special.expit
+def sigmoid(x):
+    return 1.0 / (1.0 + np.exp(-x))
 
 class NeuralNetwork:
     def __init__(self, input_size=1, hidden_size=10, output_size=1):
@@ -34,7 +37,7 @@ class NeuralNetwork:
     def forward(self, X):
         # Forward pass
         z1 = np.dot(X, self.weights[0]) + self.biases[0]
-        a1 = expit(z1)  # sigmoid activation
+        a1 = sigmoid(z1)  # sigmoid activation
         z2 = np.dot(a1, self.weights[1]) + self.biases[1]
         return z2  # linear output for regression
     
@@ -98,11 +101,32 @@ class PSO:
             self.update(fitness_func)
         return self.gbest, self.gbest_fitness
 
+# Custom function evaluator to replace numexpr
 def evaluate_function(func_str, x_values):
-    # Safely evaluate the function for each x value
-    x = x_values  # numexpr uses 'x' as the variable
+    # Define a safe namespace with only math functions
+    safe_dict = {
+        'x': x_values,
+        'sin': np.sin,
+        'cos': np.cos,
+        'tan': np.tan,
+        'exp': np.exp,
+        'log': np.log,
+        'sqrt': np.sqrt,
+        'abs': np.abs,
+        'pi': np.pi,
+        'e': np.e
+    }
+    
     try:
-        return ne.evaluate(func_str)
+        # Replace common function names with numpy equivalents
+        for func in ['sin', 'cos', 'tan', 'exp', 'log', 'sqrt', 'abs']:
+            func_str = func_str.replace(f"{func}(", f"np.{func}(")
+        
+        # Add numpy reference
+        safe_dict['np'] = np
+        
+        # Evaluate the function
+        return eval(func_str, {"__builtins__": {}}, safe_dict)
     except Exception as e:
         raise ValueError(f"Error evaluating function: {e}")
 
