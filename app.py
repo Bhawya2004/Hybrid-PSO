@@ -3,7 +3,7 @@ import numpy as np
 import math
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 # Custom sigmoid function to replace scipy.special.expit
 def sigmoid(x):
