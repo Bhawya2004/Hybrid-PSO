@@ -42,3 +42,4 @@ This application allows users to input mathematical functions and see how well a
 
 1. Clone the repository
 2. Install required Python packages:
+3. Patent ID:- 21631
